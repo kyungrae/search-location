@@ -1,9 +1,9 @@
-package hama.searchlocation.location.config
+package hama.searchlocation.location
 
 import hama.searchlocation.location.domain.LocationQueryAggregator
-import hama.searchlocation.location.domain.kakao.KakaoLocationQueryClient
+import hama.searchlocation.location.infrastructure.kakao.KakaoLocationQueryClient
 import hama.searchlocation.location.domain.LocationQueryClient
-import hama.searchlocation.location.domain.naver.NaverLocationQueryClient
+import hama.searchlocation.location.infrastructure.naver.NaverLocationQueryClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean

@@ -1,6 +1,7 @@
-package hama.searchlocation.location.domain.naver
+package hama.searchlocation.location.infrastructure.naver
 
 import hama.searchlocation.location.domain.Location
+import hama.searchlocation.location.domain.LocationQueryAggregator.Companion.QUERY_SIZE
 import hama.searchlocation.location.domain.LocationQueryClient
 import org.springframework.web.client.RestTemplate
 
@@ -8,9 +9,9 @@ import org.springframework.web.client.RestTemplate
 class NaverLocationQueryClient(
     private val kakaoRestTemplate: RestTemplate
 ) : LocationQueryClient {
-    override fun getLocations(keyword: String): List<Location> =
+    override fun getLocations(keyword: String, page: Int, size: Int): List<Location> =
         kakaoRestTemplate.getForEntity(
-            "/v1/search/local.json?query=곱창&display=5",
+            "/v1/search/local.json?query=곱창&start=${(page - 1) * QUERY_SIZE + 1}&display=$size",
             NaverResponse::class.java
         ).body!!.toLocations()
 

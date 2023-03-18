@@ -1,4 +1,4 @@
-package hama.searchlocation.location.domain.kakao
+package hama.searchlocation.location.infrastructure.kakao
 
 import hama.searchlocation.location.domain.Location
 import hama.searchlocation.location.domain.LocationQueryClient
@@ -8,9 +8,9 @@ import org.springframework.web.client.RestTemplate
 class KakaoLocationQueryClient(
     private val kakaoRestTemplate: RestTemplate
 ) : LocationQueryClient {
-    override fun getLocations(keyword: String): List<Location> =
+    override fun getLocations(keyword: String, page: Int, size: Int): List<Location> =
         kakaoRestTemplate.getForEntity(
-            "/v2/local/search/keyword.json?query=$keyword&page=1&size=5",
+            "/v2/local/search/keyword.json?query=$keyword&page=$page&size=$size",
             KakaoResponse::class.java
         ).body!!.toLocations()
 

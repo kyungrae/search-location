@@ -1,7 +1,8 @@
-package hama.searchlocation.location.domain.naver
+package hama.searchlocation.location.infrastructure.naver
 
 import hama.searchlocation.location.domain.Location
 
+// https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword
 data class NaverResponse(
     val items: List<NaverLocation>
 ) {
