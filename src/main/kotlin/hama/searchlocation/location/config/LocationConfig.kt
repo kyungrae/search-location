@@ -2,6 +2,7 @@ package hama.searchlocation.location.config
 
 import hama.searchlocation.location.domain.kakao.KakaoLocationQueryClient
 import hama.searchlocation.location.domain.LocationQueryClient
+import hama.searchlocation.location.domain.naver.NaverLocationQueryClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -15,6 +16,12 @@ class LocationConfig {
     @Value("\${kakao.api.key}")
     private lateinit var kakaoApiKey: String
 
+    @Value("\${naver.client.id}")
+    private lateinit var naverClientId: String
+
+    @Value("\${naver.client.secret}")
+    private lateinit var naverClientSecret: String
+
     @Bean
     fun kakaoRestTemplate(): RestTemplate =
         RestTemplateBuilder()
@@ -27,4 +34,18 @@ class LocationConfig {
     @Bean
     fun kakaoLocationQueryClient(): LocationQueryClient =
         KakaoLocationQueryClient(kakaoRestTemplate())
+
+    @Bean
+    fun naverRestTemplate(): RestTemplate =
+        RestTemplateBuilder()
+            .setConnectTimeout(Duration.ofSeconds(1))
+            .setReadTimeout(Duration.ofSeconds(1))
+            .defaultHeader("X-Naver-Client-Id", naverClientId)
+            .defaultHeader("X-Naver-Client-Secret", naverClientSecret)
+            .rootUri("https://openapi.naver.com")
+            .build()
+
+    @Bean
+    fun naverLocationQueryClient(): LocationQueryClient =
+        NaverLocationQueryClient(naverRestTemplate())
 }

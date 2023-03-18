@@ -2,7 +2,6 @@ package hama.searchlocation.location.ui
 
 import hama.searchlocation.location.application.LocationApplication
 import jakarta.validation.ConstraintViolationException
-
 import jakarta.validation.constraints.NotBlank
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
