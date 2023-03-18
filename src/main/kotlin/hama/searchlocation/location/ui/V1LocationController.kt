@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController
 class V1LocationController(
     private val locationApplication: LocationApplication
 ) {
-
     @GetMapping
     fun getLocations(
         @NotBlank @RequestParam("keyword") keyword: String

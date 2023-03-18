@@ -1,5 +1,6 @@
 package hama.searchlocation.location.config
 
+import hama.searchlocation.location.domain.LocationQueryAggregator
 import hama.searchlocation.location.domain.kakao.KakaoLocationQueryClient
 import hama.searchlocation.location.domain.LocationQueryClient
 import hama.searchlocation.location.domain.naver.NaverLocationQueryClient
@@ -48,4 +49,8 @@ class LocationConfig {
     @Bean
     fun naverLocationQueryClient(): LocationQueryClient =
         NaverLocationQueryClient(naverRestTemplate())
+
+    @Bean
+    fun locationQueryAggregator(
+    ) = LocationQueryAggregator(kakaoLocationQueryClient(), naverLocationQueryClient())
 }

@@ -1,5 +1,5 @@
 package hama.searchlocation.location.domain
 
 interface LocationQueryClient {
-    fun getLocations(keyword: String): List<String>
+    fun getLocations(keyword: String): List<Location>
 }
