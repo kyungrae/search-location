@@ -28,7 +28,7 @@ curl -X GET "http://localhost:8080"
   - [ ] 검색 결과 Redis 캐싱
 - [ ] 검색 키워드 목록
   - [X] 키워드 검색 consumer 구현
-  - [ ] consumer에서 keyword_search_history 데이터 적재
+  - [X] consumer에서 keyword_search_log 데이터 적재
   - [ ] 검색 키워드 목록 API 구현
 - [ ] readme 업데이트
   - [ ] 서비스 테스트 하는 방법
@@ -43,8 +43,8 @@ curl -X GET "http://localhost:8080"
 
 - 프로그램의 지속적 유지 보수 및 확장에 용이한 아키텍처에 대한 설계
 - 동시성 이슈가 발생할 수 있는 부분을 염두에 둔 설계 및 구현 (예시. 키워드 별로 검색된 횟수)
-  - 여러 프로세스에서 같은 keyword_search_history 레코드 갱신을 막기 위해 키워드 검색 이벤트 발행 시 레코드 키를 키워드로 지정
-  - 하나의 Consumer가 같은 키워드의 검색 기록 갱신하기 때문에 keyword_search_history 레코드 갱신 경합이 발생하지 않음
+  - 여러 프로세스에서 같은 keyword_search_log 레코드 갱신을 막기 위해 키워드 검색 이벤트 발행 시 레코드 키를 키워드로 지정
+  - 하나의 Consumer가 같은 키워드의 검색 기록 갱신하기 때문에 keyword_search_log 레코드 갱신 경합이 발생하지 않음
 - 카카오, 네이버 등 검색 API 제공자의 “다양한” 장애 및 연동 오류 발생 상황에 대한 고려
   - 외부 시스템 장애를 대비해 장소 검색 fallback 저장소 구축
   - 서킷브레이커를 통해 외부 시스템 장애 발생 시 fallback 저장소를 이용해 검색 결과 반환

@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate
 import java.time.Duration
 
 @Configuration
-class LocationRestTemplateConfig(
+class LocationConfig(
     @Value("\${kakao.api.key}") private val kakaoApiKey: String,
     @Value("\${naver.client.id}") private val naverClientId: String,
     @Value("\${naver.client.secret}") private val naverClientSecret: String

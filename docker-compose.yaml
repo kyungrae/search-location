@@ -31,12 +31,20 @@ services:
     entrypoint: [ '/bin/sh', '-c' ]
     command: |
       "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server broker:29092 --list
-
-      echo -e 'Creating kafka topics'
       kafka-topics --bootstrap-server broker:29092 --create --if-not-exists --topic location.search.success
-
-      echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server broker:29092 --list
+      echo -e 'Finish creating kafka topics'
       "
+
+  database:
+    platform: linux/x86_64 # only for M1 Mac
+    container_name: database
+    image: mysql:8.0.32
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 'search_location'
+    command:
+      - --character-set-server=utf8mb4
+    volumes:
+      - ./schema:/docker-entrypoint-initdb.d
