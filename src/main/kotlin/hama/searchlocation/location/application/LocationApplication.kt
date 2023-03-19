@@ -11,7 +11,7 @@ class LocationApplication(
 ) {
     fun getLocations(keyword: String): List<String> {
         val locations = locationQueryAggregator.query(keyword)
-        locationSearchKafkaTemplate.sendDefault(keyword, locations.toString())
+        locationSearchKafkaTemplate.sendDefault(keyword, locations.joinToString(separator = ","))
         return locations
     }
 }

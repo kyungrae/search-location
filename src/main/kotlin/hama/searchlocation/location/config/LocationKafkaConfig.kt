@@ -30,7 +30,11 @@ class LocationKafkaConfig(
     @Bean
     fun locationKafkaTemplate(): KafkaTemplate<String, String> {
         val locationSearchKafkaTemplate = KafkaTemplate(locationProducerFactory())
-        locationSearchKafkaTemplate.defaultTopic = "location.search.success"
+        locationSearchKafkaTemplate.defaultTopic = LOCATION_SEARCH_TOPIC
         return locationSearchKafkaTemplate
+    }
+
+    companion object {
+        const val LOCATION_SEARCH_TOPIC = "location.search.success"
     }
 }

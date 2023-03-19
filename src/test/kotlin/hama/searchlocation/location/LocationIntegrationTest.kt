@@ -11,10 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.TopicPartitionOffset
 import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
-import org.testcontainers.junit.jupiter.Testcontainers
 
 @ActiveProfiles("test")
-@Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EmbeddedKafka(topics = ["location.search.success"], bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 internal class LocationIntegrationTest(

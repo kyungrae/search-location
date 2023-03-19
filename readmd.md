@@ -21,13 +21,14 @@ curl -X GET "http://localhost:8080"
     - [X] 검색 결과 정렬
     - [X] 검색 결과 크기 엣지 케이스 처리
   - [X] 키워드 검색 이벤트 producer 구현
-  - [ ] 검색 결과 Redis 캐싱
   - [ ] 외부 시스템 장애 fallback 전략 추가
     - [ ] 키워드 검색 이벤트를 이용해 fallback 저장소 consumer 구현
     - [ ] 서킷브레이커 구현
     - [ ] MySQL, Redis failover 설정 추가
+  - [ ] 검색 결과 Redis 캐싱
 - [ ] 검색 키워드 목록
-  - [ ] 키워드 검색 이벤트를 이용해 keyword_search_history consumer 구현
+  - [X] 키워드 검색 consumer 구현
+  - [ ] consumer에서 keyword_search_history 데이터 적재
   - [ ] 검색 키워드 목록 API 구현
 - [ ] readme 업데이트
   - [ ] 서비스 테스트 하는 방법
