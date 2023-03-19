@@ -9,6 +9,7 @@ curl -X GET "http://localhost:8080"
 ## 기술 스택
 
 - Spring MVC
+- Kafka
 
 ## 서비스 요구사항
 
@@ -19,7 +20,7 @@ curl -X GET "http://localhost:8080"
     - [X] 동일 업체 판단 기준
     - [X] 검색 결과 정렬
     - [X] 검색 결과 크기 엣지 케이스 처리
-  - [ ] 키워드 검색 이벤트 producer 구현
+  - [X] 키워드 검색 이벤트 producer 구현
   - [ ] 검색 결과 Redis 캐싱
   - [ ] 외부 시스템 장애 fallback 전략 추가
     - [ ] 키워드 검색 이벤트를 이용해 fallback 저장소 consumer 구현
@@ -28,7 +29,13 @@ curl -X GET "http://localhost:8080"
 - [ ] 검색 키워드 목록
   - [ ] 키워드 검색 이벤트를 이용해 keyword_search_history consumer 구현
   - [ ] 검색 키워드 목록 API 구현
-- [ ] 서비스 테스트 스크립트 작성
+- [ ] readme 업데이트
+  - [ ] 서비스 테스트 하는 방법
+  - [ ] 기술 스택
+  - [ ] 코드 작성 의도
+    - architecture(hexagonal vs layered)
+      - adapter&port vs UI&Application
+      - ACL & 의존성 그림 & DI 관리
 - [ ] 표준 입출력 로깅 설정
 
 ## 기술 요구사항

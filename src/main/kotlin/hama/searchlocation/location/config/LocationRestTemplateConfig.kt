@@ -1,4 +1,4 @@
-package hama.searchlocation.location
+package hama.searchlocation.location.config
 
 import hama.searchlocation.location.domain.LocationQueryAggregator
 import hama.searchlocation.location.infrastructure.kakao.KakaoLocationQueryClient
@@ -12,17 +12,11 @@ import org.springframework.web.client.RestTemplate
 import java.time.Duration
 
 @Configuration
-class LocationConfig {
-
-    @Value("\${kakao.api.key}")
-    private lateinit var kakaoApiKey: String
-
-    @Value("\${naver.client.id}")
-    private lateinit var naverClientId: String
-
-    @Value("\${naver.client.secret}")
-    private lateinit var naverClientSecret: String
-
+class LocationRestTemplateConfig(
+    @Value("\${kakao.api.key}") private val kakaoApiKey: String,
+    @Value("\${naver.client.id}") private val naverClientId: String,
+    @Value("\${naver.client.secret}") private val naverClientSecret: String
+) {
     @Bean
     fun kakaoRestTemplate(): RestTemplate =
         RestTemplateBuilder()
