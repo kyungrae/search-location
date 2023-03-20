@@ -1,13 +1,14 @@
 package hama.searchlocation.location.config
 
+import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.kafka.core.DefaultKafkaProducerFactory
-import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.core.ProducerFactory
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
+import org.springframework.kafka.core.*
 
 @Configuration
 class LocationKafkaConfig(
@@ -32,6 +33,27 @@ class LocationKafkaConfig(
         val locationSearchKafkaTemplate = KafkaTemplate(locationProducerFactory())
         locationSearchKafkaTemplate.defaultTopic = LOCATION_SEARCH_TOPIC
         return locationSearchKafkaTemplate
+    }
+    @Bean
+    fun locationConsumerConfigs(): Map<String, Any> {
+        val props = mutableMapOf<String, Any>()
+        props[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaProperties.bootstrapServers
+        props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
+        props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
+        props[ConsumerConfig.GROUP_ID_CONFIG] = "location-fallback"
+        return props
+    }
+
+    @Bean
+    fun locationConsumerFactory(): ConsumerFactory<String, String> =
+        DefaultKafkaConsumerFactory(locationConsumerConfigs())
+
+    @Bean
+    fun locationKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
+        val locationContainerFactory = ConcurrentKafkaListenerContainerFactory<String, String>()
+        locationContainerFactory.consumerFactory = locationConsumerFactory()
+        locationContainerFactory.setConcurrency(1)
+        return locationContainerFactory
     }
 
     companion object {

@@ -3,11 +3,13 @@ package hama.searchlocation.location.config
 import hama.searchlocation.location.domain.LocationQueryAggregator
 import hama.searchlocation.location.infrastructure.kakao.KakaoLocationQueryClient
 import hama.searchlocation.location.domain.LocationQueryClient
+import hama.searchlocation.location.infrastructure.RedisLocationFallbackRepository
 import hama.searchlocation.location.infrastructure.naver.NaverLocationQueryClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.web.client.RestTemplate
 import java.time.Duration
 
@@ -47,6 +49,11 @@ class LocationConfig(
     @Bean
     fun locationQueryAggregator(
     ) = LocationQueryAggregator(kakaoLocationQueryClient(), naverLocationQueryClient())
+
+    @Bean
+    fun redisLocationFallbackRepository(
+        redisTemplate: RedisTemplate<String, String>
+    ) = RedisLocationFallbackRepository(redisTemplate)
 
     companion object {
         const val KAKAO_ROOT_URI = "https://dapi.kakao.com"

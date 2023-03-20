@@ -87,7 +87,6 @@ curl -X GET "http://localhost:8080/v1/keywords/popular" -H "accept: application/
     - [X] 기술 스택
     - [X] 코드 작성 의도
 - [ ] 외부 시스템 장애 fallback 전략 추가
-    - [ ] 키워드 검색 이벤트를 이용해 fallback 저장소 consumer 구현
+    - [X] 키워드 검색 이벤트를 이용해 fallback 저장소 consumer 구현
     - [ ] 서킷브레이커 구현
-    - [ ] MySQL, Redis failover 설정 추가
-- [ ] 검색 결과 Redis 캐싱트
+- [ ] 검색 결과 Redis 캐싱

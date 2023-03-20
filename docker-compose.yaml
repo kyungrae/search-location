@@ -3,14 +3,14 @@ version: "3.8"
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
-    container_name: zookeeper
+    container_name: location-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
   broker:
     image: confluentinc/cp-kafka:7.3.2
-    container_name: broker
+    container_name: location-broker
     ports:
       - "9092:9092"
     depends_on:
@@ -37,7 +37,7 @@ services:
 
   database:
     platform: linux/x86_64 # only for M1 Mac
-    container_name: database
+    container_name: location-database
     image: mysql:8.0.32
     ports:
       - "3306:3306"
@@ -48,3 +48,9 @@ services:
       - --character-set-server=utf8mb4
     volumes:
       - ./schema:/docker-entrypoint-initdb.d
+
+  redis:
+    container_name: location-redis
+    image: 'redis:7.0.6'
+    ports:
+      - "6379:6379"
