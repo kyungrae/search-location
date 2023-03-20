@@ -1,0 +1,5 @@
+### location 검색
+GET http://{{host}}/v1/locations?keyword=cafe
+
+### keyword 검색
+GET http://{{host}}/v1/keywords/popular
