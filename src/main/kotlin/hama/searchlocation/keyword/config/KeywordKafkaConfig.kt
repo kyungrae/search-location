@@ -33,7 +33,7 @@ class KeywordKafkaConfig(
         val keywordContainerFactory = ConcurrentKafkaListenerContainerFactory<String, String>()
         keywordContainerFactory.consumerFactory = keywordConsumerFactory()
         keywordContainerFactory.containerProperties.ackMode = ContainerProperties.AckMode.BATCH
-        keywordContainerFactory.setConcurrency(1)
+        keywordContainerFactory.setConcurrency(1) // 주의 concurrency 설정하면 keyword 갱신할 떄 경합 문제 가능성 있음
         keywordContainerFactory.isBatchListener = true
         return keywordContainerFactory
     }

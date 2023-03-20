@@ -19,7 +19,7 @@ class LocationKafkaConfig(
         props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaProperties.bootstrapServers
         props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
-        props[ProducerConfig.ACKS_CONFIG] = "0" // 유실되도 크게 중요하지 않은 이벤트이기 떄문
+        props[ProducerConfig.ACKS_CONFIG] = "0" // 유실되도 크게 중요하지 않은 이벤트
         return props
     }
 

@@ -11,7 +11,6 @@ class KeywordConfig(
     private val jdbcTemplate: JdbcTemplate
 ) {
     @Bean
-    fun keywordSearchLogRepository(): KeywordSearchLogRepository {
-        return KeywordSearchLogRepositoryImpl(jdbcTemplate)
-    }
+    fun keywordSearchLogRepository(): KeywordSearchLogRepository =
+        KeywordSearchLogRepositoryImpl(jdbcTemplate)
 }
