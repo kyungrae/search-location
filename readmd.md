@@ -13,7 +13,7 @@ curl -X GET "http://localhost:8080"
 
 ## 서비스 요구사항
 
-- [ ] 장소 검색
+- [X] 장소 검색
   - [X] 카카오 검색 API 연동
   - [X] 네이버 검색 API 연동
   - [X] 검색 결과를 통합하여 반환
@@ -21,23 +21,19 @@ curl -X GET "http://localhost:8080"
     - [X] 검색 결과 정렬
     - [X] 검색 결과 크기 엣지 케이스 처리
   - [X] 키워드 검색 이벤트 producer 구현
-  - [ ] 외부 시스템 장애 fallback 전략 추가
-    - [ ] 키워드 검색 이벤트를 이용해 fallback 저장소 consumer 구현
-    - [ ] 서킷브레이커 구현
-    - [ ] MySQL, Redis failover 설정 추가
-  - [ ] 검색 결과 Redis 캐싱
-- [ ] 검색 키워드 목록
+- [X] 검색 키워드 목록
   - [X] 키워드 검색 consumer 구현
   - [X] consumer에서 keyword_search_log 데이터 적재
-  - [ ] 검색 키워드 목록 API 구현
+  - [X] 검색 키워드 목록 API 구현
 - [ ] readme 업데이트
   - [ ] 서비스 테스트 하는 방법
   - [ ] 기술 스택
   - [ ] 코드 작성 의도
-    - architecture(hexagonal vs layered)
-      - adapter&port vs UI&Application
-      - ACL & 의존성 그림 & DI 관리
-- [ ] 표준 입출력 로깅 설정
+- [ ] 외부 시스템 장애 fallback 전략 추가
+  - [ ] 키워드 검색 이벤트를 이용해 fallback 저장소 consumer 구현
+  - [ ] 서킷브레이커 구현
+  - [ ] MySQL, Redis failover 설정 추가
+- [ ] 검색 결과 Redis 캐싱
 
 ## 기술 요구사항
 

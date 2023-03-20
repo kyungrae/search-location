@@ -1,5 +1,6 @@
 package hama.searchlocation.location
 
+import hama.searchlocation.location.config.LocationKafkaConfig.Companion.LOCATION_SEARCH_TOPIC
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EmbeddedKafka(topics = ["location.search.success"], bootstrapServersProperty = "spring.kafka.bootstrap-servers")
+@EmbeddedKafka(topics = [LOCATION_SEARCH_TOPIC], bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 internal class LocationIntegrationTest(
     @Autowired val restTemplate: TestRestTemplate,
     @Autowired val locationSearchKafkaTemplate: KafkaTemplate<String, String>,

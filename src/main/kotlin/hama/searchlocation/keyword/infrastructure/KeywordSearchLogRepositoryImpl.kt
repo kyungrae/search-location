@@ -18,24 +18,30 @@ class KeywordSearchLogRepositoryImpl(
         val alreadyExistKeywordSet = alreadyExistKeywordLogs.map { it.keyword }.toSet()
 
         // 기존에 존재하는 keyword_search_log batch 업데이트
-        val baseKeywordLogIncrements = logs
+        val updateKeywordSearchLogs = logs
             .filter { log -> alreadyExistKeywordSet.contains(log.keyword) }
             .sortedBy { it.keyword }
+            .zip(alreadyExistKeywordLogs)
+            .map { (a, b) -> a + b }
+            .map { arrayOf(it.searchCount, it.keyword) }
         jdbcTemplate.batchUpdate(
             "UPDATE keyword_search_log SET search_count = ? WHERE keyword = ?",
-            alreadyExistKeywordLogs
-                .zip(baseKeywordLogIncrements)
-                .map { (a, b) -> a + b }
-                .map { arrayOf(it.searchCount, it.keyword) }
+            updateKeywordSearchLogs
         )
 
         // 신규 keyword_search_log 추가
-        val newKeywordSearchLog = logs
+        val newKeywordSearchLogs = logs
             .filterNot { log -> alreadyExistKeywordSet.contains(log.keyword) }
+            .map { arrayOf(it.keyword, it.searchCount) }
         jdbcTemplate.batchUpdate(
             "INSERT INTO keyword_search_log (keyword, search_count) VALUES (?,?)",
-            newKeywordSearchLog
-                .map { arrayOf(it.keyword, it.searchCount) }
+            newKeywordSearchLogs
         )
+    }
+
+    override fun findTop10OrderBySearchCountDesc(): List<KeywordSearchLog> {
+        return jdbcTemplate.query(
+            "SELECT keyword, search_count FROM keyword_search_log ORDER BY search_count DESC LIMIT 10"
+        ) { rs, _ -> KeywordSearchLog(rs.getString("keyword"), rs.getLong("search_count")) }
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
 
 @Component
-class KeywordListener(
+class KeywordConsumer(
     private val keywordLogAccumulateApplication: KeywordLogAccumulateApplication
 ) {
     /**
@@ -15,6 +15,7 @@ class KeywordListener(
      * max.poll.records 값은 운영 데이터베이스의 max_allowed_packet 값을 비교해 설정 필요
      */
     @KafkaListener(
+        id = KEYWORD_ACCUMULATOR_CONTAINER_ID,
         topics = [LOCATION_SEARCH_TOPIC],
         containerFactory = "keywordKafkaListenerContainerFactory",
         properties = ["max.poll.interval.ms=1000", "max.poll.records=100"]
@@ -22,5 +23,9 @@ class KeywordListener(
     fun listen(records: List<ConsumerRecord<String, String>>) {
         val keywords = records.stream().toList().map { it.key() }
         keywordLogAccumulateApplication.accumulate(keywords)
+    }
+
+    companion object {
+        const val KEYWORD_ACCUMULATOR_CONTAINER_ID = "keyword-search-accumulator"
     }
 }
