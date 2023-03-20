@@ -41,15 +41,28 @@ curl -X GET "http://localhost:8080/v1/keywords/popular" -H "accept: application/
 
 - 장소 검색 API 호출 결과에 따라 검색 *키워드 검색 횟수* 리소스의 변경 필요
   - 문제: GET 요청에 **부수 효과** 발생 & 같은 *키워드 검색 횟수*을 갱신하면 **경합** 가능성 높아짐
-  - 해결책: GET 요청에서 검색 이벤트를 발행해 비동기적으로 *키워드 검색 횟수* 리소스를 갱신
-    - Consumer가 같은 *키워드 검색 횟수* 레코드를 갱신하는 것을 막기 위해 이벤트 발행시 record의 `key` 값을 키워드로 설정
+  - 해결책: GET 요청에서 검색 이벤트를 발행하고 비동기적으로 comsumer에서 *키워드 검색 횟수* 리소스를 갱신
+    - 장소 검색 요청하면 record의 `key` 값을 키워드로 설정하고 이벤트 발행
     - 같은 키워드의 이벤트는 동일한 파티션에 적재
     - consumer가 같은 파티션에 할당되지 않기 때문에 동일한 *키워드 검색 횟수* 갱신 과정에 경합 가능성 없음
     - *키워드 검색 횟수* 정합성이 real time 지원이 필요 없기 때문에 batch consumer로 구현
-- 많이 검색한 키워드 순으로 *키워드 검색 횟수* 정렬
-  - PK는 `keyword` 값으로 natural key 사용
-  - 정렬을 위해 `search_count` 필드에 desc index 생성
-  - 로그성 데이터를 단순히 내려주기 때문에 JDBC API 사용
+    - 많이 검색한 키워드 순으로 *키워드 검색 횟수* 정렬 필요
+      - PK는 `keyword` 값으로 natural key 사용
+      - 정렬을 위해 `search_count` 필드에 desc index 생성
+      - 로그성 데이터를 단순히 내려주기 때문에 JDBC API 사용
+- 서비스 가용성 확보
+  - 문제: 외부 장소 검색 시스템 장애에 취약함
+  - 해결책: 검색 이벤트 기반으로 fallback 저장소 구축
+    - fallback 저장소로 redis string 자료구조 사용(리스트 연산 필요 없음)
+    - fallback:location:keyword: ["location1", "location2", ...]
+    - ttl 값은 없으면 동일한 키워드가 들어오면 기존 데이터를 덮어씀
+    - circuit breaker 패턴을 이용해 fallback 저장소에 데이터가 존재하면 fallback 저장소에서 데이터를 가져오도록 구현
+- 서비스 응답 속도 개선
+  - 문제: 장소 검색 API의 경우 외부 시스템에 의존하고 있어 응답 시간이 느림
+  - 해결책: 시스템에 redis cache 적용
+    - fallback 저장소로 redis string 자료구조 사용(리스트 연산 필요 없음)
+    - location:cache:keyword: ["location1", "location2", ...]
+    - ttl = 3h
 - Testable & 변경하기 쉬운 코드 작성
   - *TestContainers*를 이용한 통합 테스트 구축
   - 외부 시스템에 의존하지 않도록 mock server 구축
