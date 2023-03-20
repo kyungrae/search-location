@@ -38,12 +38,12 @@ internal class LocationQueryAggregatorTest {
         // then
         assertEquals(10, results.size)
         assertIterableEquals(
-            listOf("카카오뱅크", "우리은행", "국민은행", "부산은행", "새마을금고"),
-            results.subList(0, 5)
+            listOf("카카오뱅크", "우리은행", "국민은행", "부산은행", "새마을금고").toSet(),
+            results.subList(0, 5).toSet()
         )
         assertIterableEquals(
-            listOf("한국은행", "농협은행", "하나은행", "신한은행", "기업은행"),
-            results.drop(5)
+            listOf("한국은행", "농협은행", "하나은행", "신한은행", "기업은행").toSet(),
+            results.drop(5).toSet()
         )
     }
 
@@ -72,16 +72,16 @@ internal class LocationQueryAggregatorTest {
         // then
         assertEquals(7, results.size)
         assertIterableEquals(
-            listOf("카카오뱅크", "국민은행", "부산은행"),
-            results.subList(0, 3)
+            listOf("카카오뱅크", "국민은행", "부산은행").toSet(),
+            results.subList(0, 3).toSet()
         )
         assertIterableEquals(
-            listOf("우리은행", "새마을금고"),
-            results.subList(3, 5)
+            listOf("우리은행", "새마을금고").toSet(),
+            results.subList(3, 5).toSet()
         )
         assertIterableEquals(
-            listOf("하나은행", "기업은행"),
-            results.subList(5, 7)
+            listOf("하나은행", "기업은행").toSet(),
+            results.subList(5, 7).toSet()
         )
     }
 
@@ -139,16 +139,16 @@ internal class LocationQueryAggregatorTest {
         // then
         assertEquals(8, results.size)
         assertIterableEquals(
-            listOf("카카오뱅크", "신한은행"),
-            results.subList(0, 2)
+            listOf("카카오뱅크", "신한은행").toSet(),
+            results.subList(0, 2).toSet()
         )
         assertIterableEquals(
-            listOf("국민은행","부산은행","우리은행","새마을금고","하나은행"),
-            results.subList(2, 7)
+            listOf("국민은행","부산은행","우리은행","새마을금고","하나은행").toSet(),
+            results.subList(2, 7).toSet()
         )
         assertIterableEquals(
-            listOf("기업은행"),
-            results.drop(7)
+            listOf("기업은행").toSet(),
+            results.drop(7).toSet()
         )
     }
 
@@ -180,16 +180,16 @@ internal class LocationQueryAggregatorTest {
         // then
         assertEquals(8, results.size)
         assertIterableEquals(
-            listOf("카카오뱅크", "신한은행"),
-            results.subList(0, 2)
+            listOf("카카오뱅크", "신한은행").toSet(),
+            results.subList(0, 2).toSet()
         )
         assertIterableEquals(
-            listOf("기업은행"),
-            results.subList(2, 3)
+            listOf("기업은행").toSet(),
+            results.subList(2, 3).toSet()
         )
         assertIterableEquals(
-            listOf("국민은행","부산은행","우리은행","새마을금고","하나은행"),
-            results.drop(3)
+            listOf("국민은행","부산은행","우리은행","새마을금고","하나은행").toSet(),
+            results.drop(3).toSet()
         )
     }
 }

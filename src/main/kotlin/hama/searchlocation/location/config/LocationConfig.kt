@@ -13,9 +13,9 @@ import java.time.Duration
 
 @Configuration
 class LocationConfig(
-    @Value("\${kakao.api.key}") private val kakaoApiKey: String,
-    @Value("\${naver.client.id}") private val naverClientId: String,
-    @Value("\${naver.client.secret}") private val naverClientSecret: String
+    @Value("\${kakao.api.key:kakao.api.key}") private val kakaoApiKey: String,
+    @Value("\${naver.client.id:naver.client.id}") private val naverClientId: String,
+    @Value("\${naver.client.secret:naver.client.secret}") private val naverClientSecret: String
 ) {
     @Bean
     fun kakaoRestTemplate(): RestTemplate =
@@ -23,7 +23,7 @@ class LocationConfig(
             .setConnectTimeout(Duration.ofSeconds(1))
             .setReadTimeout(Duration.ofSeconds(1))
             .defaultHeader("Authorization", "KakaoAK $kakaoApiKey")
-            .rootUri("https://dapi.kakao.com")
+            .rootUri(KAKAO_ROOT_URI)
             .build()
 
     @Bean
@@ -37,7 +37,7 @@ class LocationConfig(
             .setReadTimeout(Duration.ofSeconds(1))
             .defaultHeader("X-Naver-Client-Id", naverClientId)
             .defaultHeader("X-Naver-Client-Secret", naverClientSecret)
-            .rootUri("https://openapi.naver.com")
+            .rootUri(NAVER_ROOT_URI)
             .build()
 
     @Bean
@@ -47,4 +47,9 @@ class LocationConfig(
     @Bean
     fun locationQueryAggregator(
     ) = LocationQueryAggregator(kakaoLocationQueryClient(), naverLocationQueryClient())
+
+    companion object {
+        const val KAKAO_ROOT_URI = "https://dapi.kakao.com"
+        const val NAVER_ROOT_URI = "https://openapi.naver.com"
+    }
 }

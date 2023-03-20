@@ -14,13 +14,10 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.test.context.EmbeddedKafka
-import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.lang.Thread.sleep
 
-
-@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EmbeddedKafka(topics = [LOCATION_SEARCH_TOPIC], bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @Testcontainers

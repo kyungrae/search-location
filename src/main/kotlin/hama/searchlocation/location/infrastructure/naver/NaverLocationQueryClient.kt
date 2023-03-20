@@ -11,8 +11,11 @@ class NaverLocationQueryClient(
 ) : LocationQueryClient {
     override fun getLocations(keyword: String, page: Int, size: Int): List<Location> =
         kakaoRestTemplate.getForEntity(
-            "/v1/search/local.json?query=곱창&start=${(page - 1) * QUERY_SIZE + 1}&display=$size",
+            "$PATH?query=$keyword&start=${(page - 1) * QUERY_SIZE + 1}&display=$size",
             NaverResponse::class.java
         ).body!!.toLocations()
 
+    companion object {
+        const val PATH = "/v1/search/local.json"
+    }
 }

@@ -10,8 +10,11 @@ class KakaoLocationQueryClient(
 ) : LocationQueryClient {
     override fun getLocations(keyword: String, page: Int, size: Int): List<Location> =
         kakaoRestTemplate.getForEntity(
-            "/v2/local/search/keyword.json?query=$keyword&page=$page&size=$size",
+            "$PATH?query=$keyword&page=$page&size=$size",
             KakaoResponse::class.java
         ).body!!.toLocations()
 
+    companion object {
+        const val PATH = "/v2/local/search/keyword.json"
+    }
 }
