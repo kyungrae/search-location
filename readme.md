@@ -39,6 +39,65 @@ curl -X GET "http://localhost:8080/v1/keywords/popular" -H "accept: application/
 
 ## 코드 설계
 
+```mermaid
+flowchart LR
+  subgraph user[user]
+    direction TB
+    user1[user 1]
+    user2[user 2]
+    user3[user 3]
+    user4[user 4]
+  end
+  subgraph 20[Server]
+    direction TB
+    location[location]
+    keyword[keyword]
+  end
+  user1 --steak--> location
+  user2 --steak--> location
+  user3 --pizza--> location
+  user4 --> keyword
+  
+  subgraph thirdparity[third party]
+    direction TB
+    kakao[kakao]
+    naver[naver]
+  end
+  location --> kakao
+  location --> naver
+
+  subgraph kafka[Kafka]
+    subgraph topic[topic]
+      direction TB
+      partition1[partition 1]
+      partition2[partition 2]
+    end
+  end
+  location -.steak.-> partition1
+  location -.pizza.-> partition2
+
+  subgraph accumulator[accumulator]
+    direction TB
+    subgraph consumer1[consumer 1]
+      fold1[fold]
+    end
+    subgraph consumer2[consumer 2]
+      fold2[fold]
+    end 
+  end
+  
+  fold1 -.batch poll.-> partition1
+  fold2 -.batch poll.-> partition2
+
+  subgraph database[Database]
+    table[view count]
+  end
+  fold1 ==> table
+  fold2 ==> table
+
+  keyword --> table
+```
+
 - 장소 검색 API 호출 결과에 따라 검색 키워드 검색 횟수 리소스의 변경 필요
   - 문제: GET 요청에 ***부수 효과*** 발생 & 같은 키워드 검색 횟수를 갱신하면 ***경합*** 가능성 높아짐
   - 해결책: GET 요청에서 검색 이벤트를 발행하고 비동기적으로 comsumer에서 키워드 검색 횟수를 갱신
